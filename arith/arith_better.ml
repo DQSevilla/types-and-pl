@@ -60,14 +60,14 @@ let rec eval1 (t : term) : term =
   | Succ t ->
       let t' = eval1 t in
       Succ t'
+  | Pred Zero -> Zero
+  | Pred (Succ n) when isnumericalval n -> n
   | Pred t ->
-      let t' = eval1 t in
-      Pred t'
+      let t' = eval1 t in Pred t'
   | IsZero Zero -> True
-  | IsZero (Succ _) -> False
+  | IsZero (Succ n) when isnumericalval n -> False
   | IsZero t ->
-      let t' = eval1 t in
-      IsZero t'
+      let t' = eval1 t in IsZero t'
   | _ -> raise NoRuleApplies
 
 let rec eval t =
